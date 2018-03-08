@@ -12,28 +12,43 @@
  *
  *****************************************************************************/
 
-#include "wifimngr.h"
+#include "info.h"
+#include "display.h"
 #include "configs.h"
-
-#include <Arduino.h>
-#include <ESP8266WiFi.h>
-#include <WiFiClient.h>
-#include <ESP8266mDNS.h>
+#include "meteo.h"
 
 
-void WifiMngrSetup(void)
+static unsigned oldTime;
+static unsigned infoCounter;
+
+
+void InfoSetup(void)
 {
-    pinMode(CFG_STATUS_LED, OUTPUT);
+    int temp, hum;
 
-    WiFi.mode(WIFI_STA);
-    WiFi.begin(CFG_WIFI_SSID, CFG_WIFI_PASSWD);
+    oldTime = 0;
+    infoCounter = 0;
 
-    while (WiFi.status() != WL_CONNECTED) {
-        digitalWrite(CFG_STATUS_LED, LOW);
-        delay(500);
-        digitalWrite(CFG_STATUS_LED, HIGH);
-        delay(500);
+    delay(3000);
+    MeteoGetData(temp, hum);
+    DisplayShowInfo(temp, hum);
+}
+
+void InfoLoop(void)
+{
+    unsigned newTime = millis() / 1000;
+
+    if (infoCounter == CFG_INFO_DELAY) {
+        int temp, hum;
+
+        infoCounter = 0;
+
+        MeteoGetData(temp, hum);
+        DisplayShowInfo(temp, hum);
     }
 
-    MDNS.begin(CFG_DNS_NAME);
+    if (newTime != oldTime) {
+        oldTime = newTime;
+        infoCounter++;
+    }
 }
