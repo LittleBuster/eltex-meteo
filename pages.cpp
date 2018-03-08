@@ -20,9 +20,10 @@ void PagesIndexBuild(int temp, int hum, String &page)
     page = "<html> \
                 <body> \
                     <center> \
-                    <h1>Eltex Switch Managment</h1><br> \
-                    <h2>Temp: " + String(temp) + "*C</h2><br> \
-                    <h2>Hum: " + String(hum) + "%</h2><br> \
+                    <font size=\"120\"><b>Eltex Switch Managment</b><br><br> \
+                    Temperature: " + String(temp) + "*C<br> \
+                    Humidity: " + String(hum) + "%</font><br><br><br><br> \
+                    Denisov Foundation Ltd. (C) 2018 \
                     </center> \
                 </body> \
             </html>";

@@ -18,7 +18,7 @@
 #include <Arduino.h>
 
 
-#define CFG_WIFI_SSID ""
+#define CFG_WIFI_SSID "EltexSwitchMgmt"
 #define CFG_WIFI_PASSWD ""
 
 
