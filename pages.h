@@ -1,11 +1,37 @@
+/*****************************************************************************
+ *
+ * Eltex Switch Managment Project
+ *
+ * Copyright (C) 2018 Sergey Denisov.
+ * Written by Sergey Denisov aka LittleBuster (DenisovS21@gmail.com)
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public Licence 3
+ * as published by the Free Software Foundation; either version 3
+ * of the Licence, or (at your option) any later version.
+ *
+ *****************************************************************************/
+
 #ifndef PAGES_H
 #define PAGES_H
 
 #include <Arduino.h>
 
 
-void PagesIndexBuild(String &page);
+/**
+ * @brief Build index page
+ *
+ * @param[in] temp Temperature from sensor
+ * @param[in] hum Humidity from sensor
+ * @param[out] page Out html page
+ */
+void PagesIndexBuild(int temp, int hum, String &page);
 
+/**
+ * @brief Build 404 page
+ *
+ * @param[out] page Out html page
+ */
 void PagesNotFoundBuild(String &page);
 
 
