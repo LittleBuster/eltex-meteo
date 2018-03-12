@@ -27,10 +27,10 @@ static ESP8266WebServer server(CFG_SERVER_PORT);
 static void IndexHandler(void)
 {
     String page;
-    int temp, hum;
+    int temp, hum, pres, gas;
 
-    MeteoGetData(temp, hum);
-    PagesIndexBuild(temp, hum, page);
+    MeteoGetData(temp, hum, pres, gas);
+    PagesIndexBuild(temp, hum, pres, gas, page);
 
     server.send(200, "text/html", page);
 }
@@ -44,10 +44,19 @@ static void NotFoundHandler(void)
     server.send(200, "text/html", page);
 }
 
+static void StyleHandler(void)
+{
+    String page;
+
+    PagesStyleBuild(page);
+
+    server.send(200, "text/css", page);
+}
 
 void SwitchServerSetup(void)
 {
     server.on(CFG_INDEX_HANDLER, IndexHandler);
+    server.on(CFG_STYLE_HANDLER, StyleHandler);
     server.onNotFound(NotFoundHandler);
     server.begin();
 }

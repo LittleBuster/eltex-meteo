@@ -24,14 +24,14 @@ static unsigned infoCounter;
 
 void InfoSetup(void)
 {
-    int temp, hum;
+    int temp, hum, pres, gas;
 
     oldTime = 0;
     infoCounter = 0;
 
     delay(3000);
-    MeteoGetData(temp, hum);
-    DisplayShowInfo(temp, hum);
+    MeteoGetData(temp, hum, pres, gas);
+    DisplayShowInfo(temp, hum, pres, gas);
 }
 
 void InfoLoop(void)
@@ -39,12 +39,12 @@ void InfoLoop(void)
     unsigned newTime = millis() / 1000;
 
     if (infoCounter == CFG_INFO_DELAY) {
-        int temp, hum;
+        int temp, hum, pres, gas;
 
         infoCounter = 0;
 
-        MeteoGetData(temp, hum);
-        DisplayShowInfo(temp, hum);
+        MeteoGetData(temp, hum, pres, gas);
+        DisplayShowInfo(temp, hum, pres, gas);
     }
 
     if (newTime != oldTime) {

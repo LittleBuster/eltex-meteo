@@ -37,19 +37,25 @@ void DisplaySetup(void)
     lcd.home();
     lcd.clear();
 
-    lcd.print("      Eltex");
+    lcd.print(CFG_LCD_HEAD);
     lcd.setCursor(0, 1);
-    lcd.print("  Switch  Mgmt");
+    lcd.print(CFG_LCD_BTM);
 }
 
-void DisplayShowInfo(int temp, int hum)
+void DisplayShowInfo(int temp, int hum, int pres, int gas)
 {
-    String tempStr = "Temperature: " + String(temp);
-    String humStr = "Humidity:    " + String(hum) + "%";
-
     lcd.clear();
-    lcd.print(tempStr);
+    if (temp > -1 && temp < 10)
+      lcd.print("Temp: " + String(temp));
+    else
+      lcd.print("Temp:" + String(temp));
     lcd.print("\1");
+    lcd.print(" P:" + String(pres) + "mm");
+
     lcd.setCursor(0, 1);
-    lcd.print(humStr);
+    if (hum < 10)
+      lcd.print("Humd: " + String(hum) + "%");
+    else
+      lcd.print("Humd:" + String(hum) + "%");
+    lcd.print(" Gas:" + String(gas) + "%");
 }

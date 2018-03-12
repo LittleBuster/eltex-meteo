@@ -23,9 +23,11 @@
  *
  * @param[in] temp Temperature from sensor
  * @param[in] hum Humidity from sensor
+ * @param[in] pres Pressure from sensor
+ * @param[in] gas Gasses from sensor
  * @param[out] page Out html page
  */
-void PagesIndexBuild(int temp, int hum, String &page);
+void PagesIndexBuild(int temp, int hum, int pres, int gas, String &page);
 
 /**
  * @brief Build 404 page
@@ -33,6 +35,13 @@ void PagesIndexBuild(int temp, int hum, String &page);
  * @param[out] page Out html page
  */
 void PagesNotFoundBuild(String &page);
+
+/**
+ * @brief Build style file
+ *
+ * @param[out] page Out css file
+ */
+void PagesStyleBuild(String &page);
 
 
 #endif
