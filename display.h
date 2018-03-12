@@ -26,8 +26,10 @@ void DisplaySetup(void);
  *
  * @param temp Temperature from sensor
  * @param hum Humidity from sensor
+ * @param pres Pressure from sensor
+ * @param gas Gasses from sensor
  */
-void DisplayShowInfo(int temp, int hum);
+void DisplayShowInfo(int temp, int hum, int pres, int gas);
 
 
 #endif

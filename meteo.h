@@ -31,8 +31,10 @@ void MeteoLoop(void);
  *
  * @param[out] temp Temperature from sensor
  * @param[out] hum Humidity from sensor
+ * @param[out] pres Pressure from sensor
+ * @param[out] gas Gasses from sensor
  */
-void MeteoGetData(int &temp, int &hum);
+void MeteoGetData(int &temp, int &hum, int &pres, int &gas);
 
 
 #endif

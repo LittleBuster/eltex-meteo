@@ -18,7 +18,7 @@
 #include <Arduino.h>
 
 
-#define CFG_WIFI_SSID ""
+#define CFG_WIFI_SSID "FastPathMeteo"
 #define CFG_WIFI_PASSWD ""
 
 
@@ -33,6 +33,7 @@
 
 
 #define CFG_INDEX_HANDLER "/"
+#define CFG_STYLE_HANDLER "/style.css"
 
 
 #define CFG_STATUS_LED 2
@@ -43,9 +44,11 @@
 #define CFG_DHT_PIN D3
 
 
-#define CFG_LCD_ADDR 0x3F
+#define CFG_LCD_ADDR 0x27
 #define CFG_LCD_WDTH 16
 #define CFG_LCD_HGHT 2
+#define CFG_LCD_HEAD "   Fast Path    "
+#define CFG_LCD_BTM  " Meteo Station  "
 
 
 #endif

@@ -17,15 +17,30 @@
 
 #include <Arduino.h>
 #include <DHTesp.h>
+#include <Adafruit_BMP280.h>
 
 
 static DHTesp dht22;
+static Adafruit_BMP280 bme;
 
 static unsigned oldTime;
 static unsigned meteoCounter;
 
 static int tempData;
 static int humData;
+static int presData;
+static int gasData;
+
+
+static int calcPressure(int pres)
+{
+    return (pres * 750) / 100000;
+}
+
+static int calcGasses(int gas)
+{
+    return (gas * 100) / 1024;
+}
 
 
 void MeteoSetup(void)
@@ -34,11 +49,21 @@ void MeteoSetup(void)
     meteoCounter = 0;
     tempData = 0;
     humData = 0;
+    presData = 0;
+    gasData = 0;
 
     dht22.setup(CFG_DHT_PIN);
 
+    if (!bme.begin()) {
+        while (1);
+    }
+
+    pinMode(A0, INPUT); //Gasses
+
     humData = (int)dht22.getHumidity();
     tempData = (int)dht22.getTemperature();
+    presData = calcPressure(bme.readPressure());
+    gasData = calcGasses(analogRead(A0));
 }
 
 void MeteoLoop(void)
@@ -49,6 +74,8 @@ void MeteoLoop(void)
         meteoCounter = 0;
         humData = (int)dht22.getHumidity();
         tempData = (int)dht22.getTemperature();
+        presData = calcPressure(bme.readPressure());
+        gasData = calcGasses(analogRead(A0));
     }
 
     if (nowTime != oldTime) {
@@ -57,8 +84,10 @@ void MeteoLoop(void)
     }
 }
 
-void MeteoGetData(int &temp, int &hum)
+void MeteoGetData(int &temp, int &hum, int &pres, int &gas)
 {
     temp = tempData;
     hum = humData;
+    pres = presData;
+    gas = gasData;
 }
