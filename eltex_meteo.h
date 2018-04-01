@@ -1,6 +1,6 @@
 /*****************************************************************************
  *
- * Eltex Switch Managment Project
+ * Eltex Meteo Project
  *
  * Copyright (C) 2018 Sergey Denisov.
  * Written by Sergey Denisov aka LittleBuster (DenisovS21@gmail.com)
@@ -12,19 +12,38 @@
  *
  *****************************************************************************/
 
-#ifndef SWITCH_MNGR_H
-#define SWITCH_MNGR_H
+#ifndef ELTEX_METEO_H
+#define ELTEX_METEO_H
 
 
-/**
- * @brief Switch manager initialize
- */
-void SwitchMngrSetup(void);
+#include "sensors.h"
+#include "display.h"
+#include "webclient.h"
 
-/**
- * @brief Switch manager main loop
- */
-void SwitchMngrLoop(void);
+
+class EltexMeteo
+{
+public:
+    EltexMeteo(ISensors *sensors, IDisplay *display, IWebClient *client);
+
+    /**
+     * Meteo settings
+     */
+    void setup();
+
+    /**
+     * Meteo main loop
+     */
+    void loop();
+
+private:
+    ISensors *sensors_;
+    IDisplay *display_;
+    IWebClient *client_;
+
+    unsigned counter_;
+    unsigned oldTime_;
+};
 
 
 #endif

@@ -18,36 +18,26 @@
 #include <Arduino.h>
 
 
-#define CFG_WIFI_SSID "FastPathMeteo"
+#define CFG_WIFI_SSID ""
 #define CFG_WIFI_PASSWD ""
 
-
-#define CFG_DNS_NAME "EspEltex"
+#define CFG_REMOTE_ADDR "http://127.0.0.1:8080"
 
 
 #define CFG_METEO_DELAY 30
-#define CFG_INFO_DELAY 10
-
-
-#define CFG_SERVER_PORT 80
-
-
-#define CFG_INDEX_HANDLER "/"
-#define CFG_STYLE_HANDLER "/style.css"
 
 
 #define CFG_STATUS_LED 2
 
 
-#define CFG_SCL_PIN D1
-#define CFG_SDA_PIN D2
 #define CFG_DHT_PIN D3
+#define CFG_GAS_PIN A0
 
 
 #define CFG_LCD_ADDR 0x27
-#define CFG_LCD_WDTH 16
-#define CFG_LCD_HGHT 2
-#define CFG_LCD_HEAD "   Fast Path    "
+#define CFG_LCD_ROWS 16
+#define CFG_LCD_COLS 2
+#define CFG_LCD_HEAD "     Eltex      "
 #define CFG_LCD_BTM  " Meteo Station  "
 
 

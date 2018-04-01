@@ -1,6 +1,6 @@
 /*****************************************************************************
  *
- * Eltex Switch Managment Project
+ * Eltex Meteo Project
  *
  * Copyright (C) 2018 Sergey Denisov.
  * Written by Sergey Denisov aka LittleBuster (DenisovS21@gmail.com)
@@ -15,47 +15,46 @@
 #include "display.h"
 #include "configs.h"
 
-#include <LiquidCrystal_I2C.h>
-#include <Wire.h>
+#include <assert.h>
 
 
-static LiquidCrystal_I2C lcd(CFG_LCD_ADDR, CFG_LCD_WDTH, CFG_LCD_HGHT);
-static uint8_t tempCel[8] = { B11100,
-                              B10100,
-                              B11100,
-                              B00000,
-                              B00000,
-                              B00000,
-                              B00000 };
-
-
-void DisplaySetup(void)
+Display::Display(ILcdI2c *lcd): lcd_(lcd)
 {
-    Wire.begin(CFG_SDA_PIN, CFG_SCL_PIN);
-    lcd.begin();
-    lcd.createChar(1, tempCel);
-    lcd.home();
-    lcd.clear();
-
-    lcd.print(CFG_LCD_HEAD);
-    lcd.setCursor(0, 1);
-    lcd.print(CFG_LCD_BTM);
+    assert(lcd != nullptr);
 }
 
-void DisplayShowInfo(int temp, int hum, int pres, int gas)
+void Display::setup()
 {
-    lcd.clear();
-    if (temp > -1 && temp < 10)
-      lcd.print("Temp: " + String(temp));
-    else
-      lcd.print("Temp:" + String(temp));
-    lcd.print("\1");
-    lcd.print(" P:" + String(pres) + "mm");
+    lcd_->setAddress(CFG_LCD_ADDR);
+    lcd_->setResolution(CFG_LCD_COLS, CFG_LCD_ROWS);
+    lcd_->begin();
+    lcd_->createChar(1, tempCel);
+    lcd_->setBacklight(true);
 
-    lcd.setCursor(0, 1);
-    if (hum < 10)
-      lcd.print("Humd: " + String(hum) + "%");
+    lcd_->setCursor(0, 0);
+    lcd_->print(CFG_LCD_HEAD);
+    lcd_->setCursor(0, 1);
+    lcd_->print(CFG_LCD_BTM);
+
+    delay(2000);
+}
+
+void Display::printSensorsData(int temp, int hum, int pres, int gas)
+{
+    lcd_->clear();
+    lcd_->setCursor(0, 0);
+
+    if (temp > -1 && temp < 10)
+      lcd_->print("Temp: " + String(temp));
     else
-      lcd.print("Humd:" + String(hum) + "%");
-    lcd.print(" Gas:" + String(gas) + "%");
+      lcd_->print("Temp:" + String(temp));
+    lcd_->print("\1");
+    lcd_->print(" P:" + String(pres) + "mm");
+
+    lcd_->setCursor(0, 1);
+    if (hum < 10)
+      lcd_->print("Humd: " + String(hum) + "%");
+    else
+      lcd_->print("Humd:" + String(hum) + "%");
+    lcd_->print(" G:" + String(gas) + "pp");
 }
