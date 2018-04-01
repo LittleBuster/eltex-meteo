@@ -1,2 +1,2 @@
-# eltex-switch-mgmt
-Switch power control and room thermo data for Eltex
+# eltex-meteo
+Eltex meteo station on ESP8266 NodeMCU
