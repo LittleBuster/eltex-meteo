@@ -12,54 +12,36 @@
  *
  *****************************************************************************/
 
-#ifndef DISPLAY_H
-#define DISPLAY_H
+#ifndef WEB_CLIENT_H
+#define WEB_CLIENT_H
+
+#include <ESP8266HTTPClient.h>
 
 
-#include "lcd_i2c.h"
-
-#include <Arduino.h>
-
-
-static uint8_t tempCel[8] = { B11100,
-                              B10100,
-                              B11100,
-                              B00000,
-                              B00000,
-                              B00000,
-                              B00000 };
-
-
-class IDisplay
+class IWebClient
 {
 public:
-    virtual void setup() = 0;
-    virtual void printSensorsData(int temp, int hum, int pres, int gas) = 0;
+    virtual void sendSensorsData(int temp, int hum, int pres, int gas) = 0;
 };
 
 
-class Display: public IDisplay
+class WebClient: public IWebClient
 {
 public:
-    Display(ILcdI2c *lcd);
+    WebClient(HTTPClient *client);
 
     /**
-     * Display settings
-     */
-    void setup();
-
-    /**
-     * Print sensors data
+     * Send sensors data
      *
      * @param temp Room temperature
      * @param hum Room humidity
      * @param pres Atmospheric pressure
      * @param gas Room gasses PPM
      */
-    void printSensorsData(int temp, int hum, int pres, int gas);
+    void sendSensorsData(int temp, int hum, int pres, int gas);
 
 private:
-    ILcdI2c *lcd_;
+    HTTPClient *client_;
 };
 
 

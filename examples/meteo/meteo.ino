@@ -1,6 +1,6 @@
 /*****************************************************************************
  *
- * Eltex Switch Managment Project
+ * Eltex Meteo Project
  *
  * Copyright (C) 2018 Sergey Denisov.
  * Written by Sergey Denisov aka LittleBuster (DenisovS21@gmail.com)
@@ -12,19 +12,26 @@
  *
  *****************************************************************************/
 
-#include "wifimngr.h"
-#include "configs.h"
-
-#include <Arduino.h>
-#include <ESP8266WiFi.h>
-#include <WiFiClient.h>
-#include <ESP8266mDNS.h>
+#include <eltex_meteo.h>
 
 
-void WifiMngrSetup(void)
+Bmp280 bmp;
+Mq135 mq;
+Dht dht;
+LcdI2c lcd;
+HTTPClient http;
+WebClient client(&http);
+Display display(&lcd);
+Sensors sensors(&bmp, &dht, &mq);
+EltexMeteo meteo(&sensors, &display, &client);
+
+
+void setup()
 {
-    pinMode(CFG_STATUS_LED, OUTPUT);
+    meteo.setup();
+}
 
-    WiFi.softAP(CFG_WIFI_SSID, CFG_WIFI_PASSWD);
-    MDNS.begin(CFG_DNS_NAME);
+void loop()
+{
+    meteo.loop();
 }
