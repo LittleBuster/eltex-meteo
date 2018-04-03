@@ -17,33 +17,30 @@ package com.denfnd.utils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 
 public class MutexLocker implements Locker {
-    private Map<String, String> meteo = new HashMap<>();
+    private Map<String, ReadWriteLock> mutexs = new HashMap<>();
 
-    public void addMutex(String module, String mutex) {
-
+    public void addMutex(String name) {
+        mutexs.put(name, new ReentrantReadWriteLock());
     }
 
-    public boolean lockModule(String module, String mutex) {
-        switch (module) {
-            case "meteo":
-                meteo.get(mutex);
-                break;
-            default:
-                return false;
-        }
-        return true;
+    public void lockRead(String name) {
+        mutexs.get(name).readLock().lock();
     }
 
-    public boolean unlockModule(String module, String mutex) {
-        switch (module) {
-            case "meteo":
-                meteo.get(mutex);
-                break;
-            default:
-                return false;
-        }
-        return true;
+    public void unlockRead(String name) {
+        mutexs.get(name).readLock().unlock();
+    }
+
+    public void lockWrite(String name) {
+        mutexs.get(name).writeLock().lock();
+    }
+
+    public void unlockWrite(String name) {
+        mutexs.get(name).writeLock().unlock();
     }
 }

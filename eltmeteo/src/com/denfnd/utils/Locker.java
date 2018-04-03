@@ -16,7 +16,9 @@ package com.denfnd.utils;
 
 
 public interface Locker {
-    void addMutex(String module, String mutex);
-    boolean lockModule(String module, String mutex);
-    boolean unlockModule(String module, String mutex);
+    void addMutex(String name);
+    void lockRead(String name);
+    void unlockRead(String name);
+    void lockWrite(String name);
+    void unlockWrite(String name);
 }
