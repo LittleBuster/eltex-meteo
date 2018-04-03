@@ -26,19 +26,25 @@ public class MeteoStation implements Meteo {
 
     public MeteoStation(Locker locker) {
         this.locker = locker;
-        this.locker.addMutex("meteo", "meteo");
+        this.locker.addMutex("meteo");
     }
 
     public MeteoData getData() {
-        return data;
+        MeteoData mdata;
+
+        locker.lockRead("meteo");
+        mdata = this.data;
+        locker.unlockRead("meteo");
+
+        return mdata;
     }
 
     public void setMeteoData(int temp, int hum, int pres, int gas) {
-        locker.lockModule("meteo", "meteo");
+        locker.lockWrite("meteo");
         data.temp = temp;
         data.hum = hum;
         data.pres = pres;
         data.gas = gas;
-        locker.unlockModule("meteo", "meteo");
+        locker.unlockWrite("meteo");
     }
 }
